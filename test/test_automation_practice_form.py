@@ -10,8 +10,15 @@ NUMBER = "9138761122"
 
 def test_form(open_browser):
     filepath = 'D:\\lesson_5\\pictures\\if-and-if-else.png'
+
     # actions = ActionChains(browser.driver)
 
+    # removing unnecessary banners
+    browser.execute_script('document.querySelector("#fixedban").remove()')
+    browser.element('footer').execute_script('element.remove()')
+    browser.element('.sidebar-content').execute_script('element.remove()')
+
+    # filling out the form
     browser.should((have.title('DEMOQA')))
 
     browser.element('#firstName').should(be.blank).type(NAME)
@@ -58,6 +65,7 @@ def test_form(open_browser):
 
     browser.element('#submit').click()
 
+    # checking the completed form
     browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
     browser.all('tr').element_by_its('td', have.text('Student Name')).all('td')[1].should(
         have.text(f'{NAME} {SURNAME}'))
@@ -71,3 +79,5 @@ def test_form(open_browser):
     browser.all('tr').element_by_its('td', have.text('Picture')).all('td')[1].should(have.text('if-and-if-else.png'))
     browser.all('tr').element_by_its('td', have.text('Address')).all('td')[1].should(have.text('Russia'))
     browser.all('tr').element_by_its('td', have.text('State and City')).all('td')[1].should(have.text('Haryana Karnal'))
+
+    browser.element('#closeLargeModal').should(be.clickable).click()
