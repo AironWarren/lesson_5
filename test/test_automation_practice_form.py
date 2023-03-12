@@ -1,4 +1,5 @@
 from selene import browser, have, be
+import os
 
 # from selenium.webdriver import ActionChains, Keys
 
@@ -9,9 +10,9 @@ NUMBER = "9138761122"
 
 
 def test_form(open_browser):
-    filepath = 'D:\\lesson_5\\pictures\\if-and-if-else.png'
-
     # actions = ActionChains(browser.driver)
+
+    file = os.getcwd() + r'\pictures\if-and-if-else.png'
 
     # removing unnecessary banners
     browser.execute_script('document.querySelector("#fixedban").remove()')
@@ -21,48 +22,62 @@ def test_form(open_browser):
     # filling out the form
     browser.should((have.title('DEMOQA')))
 
+    # first name
     browser.element('#firstName').should(be.blank).type(NAME)
 
+    # last name
     browser.element('#lastName').should(be.blank).type(SURNAME)
+
+    # email
     browser.element('#userEmail').should(be.blank).type(EMAIL)
 
+    # gender
     browser.element('[for="gender-radio-2"]').should(have.text('Female')).click()
 
+    # mobile number
     browser.element('#userNumber').should(be.blank).type(NUMBER)
 
     '''
     Немного костыльная проверка и я не уверен что она вообще работает, но значение меняется, но если потом кликнуть
     вернется default значение, печально
     '''
-    browser.element('#dateOfBirthInput').click()
-    browser.execute_script("document.querySelector('#dateOfBirthInput').value = '02 Dec 2007'")
-    browser.element('#dateOfBirthInput').should(have.value('02 Dec 2007')).click()
+    # browser.element('#dateOfBirthInput').click()
+    # browser.execute_script("document.querySelector('#dateOfBirthInput').value = '02 Dec 2007'")
+    # browser.element('#dateOfBirthInput').should(have.value('02 Dec 2007')).click()
 
     '''
     Второй вариант как мне кажется правильный
     '''
     # В CSS точка перед названием селектора означает, что это селектора класса
+    browser.element('#dateOfBirthInput').click()
     browser.element('.react-datepicker__month-select option[value="11"]').should(have.text('December')).click()
     browser.element('.react-datepicker__year-select option[value="2007"]').click()
     browser.element('.react-datepicker__day--002').should(have.text('2')).click()
 
+    # subjects
     browser.element('#subjectsInput').should(be.blank).type('Maths').press_enter()
-    browser.element('#subjectsInput').should(be.blank).type('English').press_enter()
+    # browser.element('#subjectsInput').should(be.blank).type('English').press_enter()
 
+    # hobbies
     browser.element('[for="hobbies-checkbox-3"]').should(have.text('Music')).click()
 
-    browser.element("input[type=file]").send_keys(filepath)
+    # picture
+    browser.element("input[type=file]").send_keys(file)
 
+    # Address
     browser.element('#currentAddress').should(be.blank).type("Russia")
 
+    # scroll down to the bottom
     browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+    # state and city
     browser.element('#state').click()
     browser.element('#react-select-3-option-2').should(have.text('Haryana')).click()
 
     browser.element('#city').click()
     browser.element('#react-select-4-option-0').should(have.text('Karnal')).click()
 
+    # submitting a form
     browser.element('#submit').click()
 
     # checking the completed form
