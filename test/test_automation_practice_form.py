@@ -1,7 +1,7 @@
 from selene import browser, have, be
 import os
 
-# from selenium.webdriver import ActionChains, Keys
+from selenium.webdriver import ActionChains, Keys
 
 NAME = "Slava"
 SURNAME = "Ko"
@@ -10,7 +10,7 @@ NUMBER = "9138761122"
 
 
 def test_form(open_browser):
-    # actions = ActionChains(browser.driver)
+    actions = ActionChains(browser.driver)
 
     file = os.getcwd() + r'\pictures\if-and-if-else.png'
 
@@ -55,8 +55,10 @@ def test_form(open_browser):
     browser.element('.react-datepicker__day--002').should(have.text('2')).click()
 
     # subjects
-    browser.element('#subjectsInput').should(be.blank).type('Maths').press_enter()
-    # browser.element('#subjectsInput').should(be.blank).type('English').press_enter()
+    browser.element('#subjectsInput').should(be.blank).type('Maths')
+    browser.all('.subjects-auto-complete__menu').element_by(have.exact_text('Maths')).click()
+    browser.element('#subjectsInput').should(be.blank).type('English')
+    browser.all('.subjects-auto-complete__menu-list').element_by(have.exact_text('English')).click()
 
     # hobbies
     browser.element('[for="hobbies-checkbox-3"]').should(have.text('Music')).click()
@@ -89,7 +91,7 @@ def test_form(open_browser):
     browser.all('tr').element_by_its('td', have.text('Mobile')).all('td')[1].should(have.text(NUMBER))
     browser.all('tr').element_by_its('td', have.text('Date of Birth')).all('td')[1].should(
         have.text('02 December,2007'))
-    browser.all('tr').element_by_its('td', have.text('Subjects')).all('td')[1].should(have.text('Maths'))
+    browser.all('tr').element_by_its('td', have.text('Subjects')).all('td')[1].should(have.text('Maths, English'))
     browser.all('tr').element_by_its('td', have.text('Hobbies')).all('td')[1].should(have.text('Music'))
     browser.all('tr').element_by_its('td', have.text('Picture')).all('td')[1].should(have.text('if-and-if-else.png'))
     browser.all('tr').element_by_its('td', have.text('Address')).all('td')[1].should(have.text('Russia'))
