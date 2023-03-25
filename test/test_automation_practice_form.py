@@ -1,85 +1,94 @@
 from selene import browser, have, be
 import os
 
-from selenium.webdriver import ActionChains, Keys
+from demoqa_tests.Form_registration import RegistrationPage
 
-NAME = "Slava"
-SURNAME = "Komesarenko"
-EMAIL = "Kslavon345@gmail.ru"
-NUMBER = "9138761122"
 file = os.getcwd() + r'\pictures\if-and-if-else.png'
 
+student_registration_form = {
+    'first_name': 'Slava',
+    'last_name': 'Komesarenko',
+    'email': 'Kslavon345@gmail.ru',
+    'gender': 'Female',
+    'phone_number': '9138761122',
+    'date_of_birth': {
+        'month': 'December',
+        'year': '2007',
+        'day': 2
+    },
+    'subjects': ['Maths', 'English'],
+    'hobby': 'Music',
+    'address': "Moskovskaya street 15",
+    'name_picture': 'if-and-if-else.png',
+    'state': 'Haryana',
+    'city': 'Karnal'
+}
 
-def test_form(open_browser):
+
+def test_student_registration_form(open_browser):
     # removing ads
-    browser.execute_script('document.querySelector("#fixedban").remove()')
-    browser.element('footer').execute_script('element.remove()')
-    browser.element('.sidebar-content').execute_script('element.remove()')
+    registration_page = RegistrationPage()
+
+    registration_page.removing_banners()
 
     # WHEN
     # the desired site
-    browser.should((have.title('DEMOQA')))
+    registration_page.check_title('DEMOQA')
 
     # user initials
-    browser.element('#firstName').should(be.blank).type(NAME)
-    browser.element('#lastName').should(be.blank).type(SURNAME)
-    browser.element('#userEmail').should(be.blank).type(EMAIL)
+    registration_page.fill_first_name(student_registration_form['first_name'])
+    registration_page.fill_last_name(student_registration_form['last_name'])
+    registration_page.fill_email(student_registration_form['email'])
 
-    # # gender
-    browser.element('[name=gender][value=Female]+label').click()
+    # gender
+    registration_page.choose_gender(student_registration_form['gender'])
 
     # userNumber
-    browser.element('#userNumber').should(be.blank).type(NUMBER)
+    registration_page.fill_phone_number(student_registration_form['phone_number'])
 
     # dateOfBirthInput
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').type('December')
-    browser.element('.react-datepicker__year-select').type('2007')
-    browser.element(f'.react-datepicker__day--00{2}').click()
+    registration_page.fill_in_the_date_of_birth(student_registration_form['date_of_birth']['month'],
+                                                student_registration_form['date_of_birth']['year'],
+                                                student_registration_form['date_of_birth']['day'])
 
     # subjects
-    browser.element('#subjectsInput').should(be.blank).type('Maths')
-    browser.all('.subjects-auto-complete__menu').element_by(have.exact_text('Maths')).click()
-    browser.element('#subjectsInput').should(be.blank).type('English')
-    browser.all('.subjects-auto-complete__menu').element_by(have.exact_text('English')).click()
+    registration_page.fill_user_subjects(*student_registration_form['subjects'])
 
     # choosing a hobby
-    browser.all('[for^=hobbies-checkbox]').element_by(have.text('Music')).click()
+    registration_page.choose_hobby(student_registration_form['hobby'])
 
     # uploading an image
-    browser.element("#uploadPicture").send_keys(file)
+    registration_page.upload_picture(file)
 
     # sender's address
-    browser.element('#currentAddress').should(be.blank).type("Moskovskaya street 15")
+    registration_page.fill_current_Address(student_registration_form['address'])
 
     # scroll to the bottom of the page
-    browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    registration_page.scroll_to_the_end_of_the_page()
 
     # country and city selection
-    browser.element('#state').click()
-    browser.all('[id^=react-select][id*=option]').element_by(have.exact_text('Haryana')).click()
-    browser.element('#city').click()
-    browser.all('[id^=react-select][id*=option]').element_by(have.exact_text('Karnal')).click()
+    registration_page.choose_state(student_registration_form['state'])
+    registration_page.choose_city(student_registration_form['city'])
 
-    browser.element('#submit').click()
+    # submit_the_form
+    registration_page.submit_the_form()
 
     # THEN
     # checking the completed form
-    browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
+    registration_page.check_name_modal_contest()
 
-    browser.element('.table').all('td').even.should(
-        have.exact_texts(
-            'Slava Komesarenko',
-            'Kslavon345@gmail.ru',
-            'Female',
-            '9138761122',
-            '02 December,2007',
-            'Maths, English',
-            'Music',
-            'if-and-if-else.png',
-            'Moskovskaya street 15',
-            'Haryana Karnal',
-        )
-    )
+    registration_page.assert_registered_user_info(student_registration_form['first_name'],
+                                                  student_registration_form['last_name'],
+                                                  student_registration_form['email'],
+                                                  student_registration_form['gender'],
+                                                  student_registration_form['phone_number'],
+                                                  student_registration_form['date_of_birth'],
+                                                  student_registration_form['subjects'],
+                                                  student_registration_form['hobby'],
+                                                  student_registration_form['name_picture'],
+                                                  student_registration_form['address'],
+                                                  student_registration_form['state'],
+                                                  student_registration_form['city']
+                                                  )
 
-    browser.element('#closeLargeModal').should(be.clickable).click()
+    registration_page.close_modal_contest()
