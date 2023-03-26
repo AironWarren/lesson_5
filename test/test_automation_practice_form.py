@@ -1,8 +1,8 @@
 import datetime
 import os
 
-from demoqa_tests.Form_registration import RegistrationPage, Gender, Hobby
-from users.user import User
+from demoqa_tests.Form_registration import RegistrationPage
+from users.user import User, HobbyAndGender
 
 file = os.getcwd() + r'\pictures\if-and-if-else.png'
 
@@ -25,9 +25,11 @@ student_registration_form = {
     'city': 'Karnal'
 }
 
-student = User(first_name='Slava', last_name='Komesarenko', email='Kslavon345@gmail.ru', gender=Gender.female,
+student = User(first_name='Slava', last_name='Komesarenko', email='Kslavon345@gmail.ru',
+               gender=HobbyAndGender.female.value,
                phone_number='9138761122', date_of_birth=datetime.date(2007, 12, 2), subjects=['Maths', 'English'],
-               hobby=Hobby.music, address="Moskovskaya street 15", name_picture='if-and-if-else.png', state='Haryana',
+               hobby=HobbyAndGender.music.value, address="Moskovskaya street 15", name_picture=file,
+               state='Haryana',
                city='Karnal')
 
 
