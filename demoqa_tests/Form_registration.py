@@ -2,6 +2,9 @@ from selene import browser, be, have
 
 
 class RegistrationPage:
+    def __init__(self):
+        self.information_from_the_drop_down_list = browser.all('[id^=react-select][id*=option]')
+
     def check_title(self, title):
         browser.should((have.title(title)))
 
@@ -53,11 +56,11 @@ class RegistrationPage:
 
     def choose_state(self, state):
         browser.element('#state').click()
-        browser.all('[id^=react-select][id*=option]').element_by(have.exact_text(state)).click()
+        self.information_from_the_drop_down_list.element_by(have.exact_text(state)).click()
 
     def choose_city(self, city):
         browser.element('#city').click()
-        browser.all('[id^=react-select][id*=option]').element_by(have.exact_text(city)).click()
+        self.information_from_the_drop_down_list.element_by(have.exact_text(city)).click()
 
     def submit_the_form(self):
         browser.element('#submit').click()
