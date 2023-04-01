@@ -4,7 +4,7 @@ from demoqa_tests.Form_registration import RegistrationPage
 
 from selene import browser, be, have
 
-file = os.getcwd() + r'\test\pictures\if-and-if-else.png'
+file = os.getcwd() + r'/ws/test/pictures/if-and-if-else.png'
 
 student_registration_form = {
     'first_name': 'Slava',
