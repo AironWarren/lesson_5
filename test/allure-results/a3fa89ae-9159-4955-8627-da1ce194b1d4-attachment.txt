@@ -1,0 +1,5 @@
+{'level': 'SEVERE', 'message': 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js - Failed to load resource: net::ERR_CONNECTION_RESET', 'source': 'network', 'timestamp': 1680316956570}
+{'level': 'SEVERE', 'message': 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5889298451609146 - Failed to load resource: net::ERR_CONNECTION_RESET', 'source': 'network', 'timestamp': 1680316956576}
+{'level': 'SEVERE', 'message': 'https://www.googletagservices.com/tag/js/gpt.js - Failed to load resource: net::ERR_CONNECTION_RESET', 'source': 'network', 'timestamp': 1680316956630}
+{'level': 'SEVERE', 'message': 'https://stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j99&tid=UA-109033876-1&cid=1878613842.1680316957&jid=1460875855&gjid=1313208869&_gid=254509845.1680316957&_u=YADAAEAAAAAAACAAI~&z=219984168 - Failed to load resource: net::ERR_CONNECTION_RESET', 'source': 'network', 'timestamp': 1680316957159}
+{'level': 'SEVERE', 'message': 'https://cdn.ad.plus/player/adplus.js 401:504 Uncaught TypeError: g(...).setup is not a function', 'source': 'javascript', 'timestamp': 1680316958643}

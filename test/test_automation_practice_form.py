@@ -1,7 +1,8 @@
-from selene import browser, have, be
 import os
-
+import allure
 from demoqa_tests.Form_registration import RegistrationPage
+
+from selene import browser, be, have
 
 file = os.getcwd() + r'\pictures\if-and-if-else.png'
 
@@ -25,14 +26,19 @@ student_registration_form = {
 }
 
 
+@allure.tag('web')
+@allure.label('owner', 'AironWarren')
+@allure.story('User authorization')
+@allure.link('https://demoqa.com/automation-practice-form', name='Testing')
 def test_student_registration_form(open_browser):
     # removing ads
+
     registration_page = RegistrationPage()
 
     registration_page.removing_banners()
 
     # WHEN
-    # the desired site
+    # the desired siteh
     registration_page.check_title('DEMOQA')
 
     # user initials
@@ -91,4 +97,7 @@ def test_student_registration_form(open_browser):
                                                   student_registration_form['city']
                                                   )
 
-    registration_page.close_modal_contest()
+    # registration_page.close_modal_contest()
+
+
+
