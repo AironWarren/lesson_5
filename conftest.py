@@ -1,10 +1,10 @@
 import os
 import allure
 import pytest
-# from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selene import browser, Browser, Config
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 from utils import attach
 
 DEFAULT_BROWSER_VERSION = "100.0"
@@ -25,6 +25,23 @@ DEFAULT_BROWSER_VERSION = "100.0"
 @allure.step('Open registration form')
 @pytest.fixture(scope="session")
 def open_browser():
+    options = Options()
+    selenoid_capabilities = {
+        "browserName": "chrome",
+        "browserVersion": "100.0",
+        "selenoid:options": {
+            "enableVNC": True,
+            "enableVideo": False
+        }
+    }
+
+    options.capabilities.update(selenoid_capabilities)
+
+    driver = webdriver.Remote(
+        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        options=options)
+
+    browser.config.driver = driver
     # browser.config.browser_name = "firefox"
     browser.config.hold_browser_open = True
     browser.open("https://demoqa.com/automation-practice-form")
