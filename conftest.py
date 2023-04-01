@@ -5,6 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selene import browser, Browser, Config
 from dotenv import load_dotenv
+from selenium.webdriver.remote.file_detector import LocalFileDetector
+
 from utils import attach
 
 DEFAULT_BROWSER_VERSION = "100.0"
@@ -39,7 +41,8 @@ def open_browser():
 
     driver = webdriver.Remote(
         command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
-        options=options)
+        options=options,
+        file_detector=LocalFileDetector())
 
     browser.config.driver = driver
     # browser.config.browser_name = "firefox"
