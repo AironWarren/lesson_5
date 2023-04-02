@@ -1,3 +1,4 @@
 selene == 2.0.0b17
 pytest
 allure-pytest
+python-dotenv

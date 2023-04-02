@@ -1,0 +1,3 @@
+{'level': 'SEVERE', 'message': 'https://cdn.ad.plus/player/adplus.js 401:504 Uncaught TypeError: g(...).setup is not a function', 'source': 'javascript', 'timestamp': 1680408531617}
+{'level': 'SEVERE', 'message': "https://demoqa.com/automation-practice-form - Access to XMLHttpRequest at 'https://api.rlcdn.com/api/identity/envelope?pid=13781' from origin 'https://demoqa.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.", 'source': 'javascript', 'timestamp': 1680408533696}
+{'level': 'SEVERE', 'message': 'https://api.rlcdn.com/api/identity/envelope?pid=13781 - Failed to load resource: net::ERR_FAILED', 'source': 'network', 'timestamp': 1680408533696}
