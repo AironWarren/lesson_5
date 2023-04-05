@@ -1,4 +1,3 @@
-from selene import browser, have, be
 import os
 
 from demoqa_tests.Form_registration import RegistrationPage

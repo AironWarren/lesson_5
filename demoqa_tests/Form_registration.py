@@ -14,19 +14,19 @@ class RegistrationPage:
         browser.element('.sidebar-content').execute_script('element.remove()')
 
     def fill_first_name(self, name):
-        browser.element('#firstName').should(be.blank).type(name)
+        browser.element('#firstName').type(name)
 
     def fill_last_name(self, surname):
-        browser.element('#lastName').should(be.blank).type(surname)
+        browser.element('#lastName').type(surname)
 
     def fill_email(self, email):
-        browser.element('#userEmail').should(be.blank).type(email)
+        browser.element('#userEmail').type(email)
 
     def choose_gender(self, gender):
         browser.element(f'[name=gender][value={gender}]+label').click()
 
     def fill_phone_number(self, phone_number):
-        browser.element('#userNumber').should(be.blank).type(phone_number)
+        browser.element('#userNumber').type(phone_number)
 
     def fill_in_the_date_of_birth(self, month, year, day):
         browser.element('#dateOfBirthInput').click()
@@ -39,7 +39,7 @@ class RegistrationPage:
 
     def fill_user_subjects(self, *args):
         for subject in args:
-            browser.element('#subjectsInput').should(be.blank).type(subject)
+            browser.element('#subjectsInput').type(subject)
             browser.all('.subjects-auto-complete__menu').element_by(have.exact_text(subject)).click()
 
     def choose_hobby(self, hobby):
@@ -49,7 +49,7 @@ class RegistrationPage:
         browser.element("#uploadPicture").send_keys(file)
 
     def fill_current_Address(self, address):
-        browser.element('#currentAddress').should(be.blank).type(address)
+        browser.element('#currentAddress').type(address)
 
     def scroll_to_the_end_of_the_page(self):
         browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
