@@ -1,42 +1,27 @@
 from selene import browser, be, have
 from users.user import User
 
-Month = {
-    1: 'January',
-    2: 'February',
-    3: 'March',
-    4: 'April',
-    5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'September',
-    10: 'October',
-    11: 'November',
-    12: 'December'
-}
-
 
 class RegistrationPage:
 
     def __init__(self):
-        self.first_name = browser.element('#firstName').should(be.blank)
-        self.last_name = browser.element('#lastName').should(be.blank)
-        self.email = browser.element('#userEmail').should(be.blank)
+        self.first_name = browser.element('#firstName')
+        self.last_name = browser.element('#lastName')
+        self.email = browser.element('#userEmail')
         self.gender = browser.all('[name=gender]')
-        self.number = browser.element('#userNumber').should(be.blank)
+        self.number = browser.element('#userNumber')
 
         self.date_of_birth_input = browser.element('#dateOfBirthInput')
         self.date_of_birth_month = browser.element('.react-datepicker__month-select')
         self.date_of_birth_year = browser.element('.react-datepicker__year-select')
 
-        self.subjects_input = browser.element('#subjectsInput').should(be.blank)
+        self.subjects_input = browser.element('#subjectsInput')
         self.item_from_the_menu = browser.all('.subjects-auto-complete__menu')
 
         self.hobby = browser.all('[for^=hobbies-checkbox]')
 
         self.picture = browser.element("#uploadPicture")
-        self.current_address = browser.element('#currentAddress').should(be.blank)
+        self.current_address = browser.element('#currentAddress')
 
         self.state = browser.element('#state')
         self.city = browser.element('#city')
@@ -69,14 +54,11 @@ class RegistrationPage:
         self.number.type(phone_number)
 
     def fill_in_the_date_of_birth(self, date_of_birth):
+        date_of_birth = date_of_birth.split()
         self.date_of_birth_input.click()
-        self.date_of_birth_month.type(Month[date_of_birth.month])
-        self.date_of_birth_year.type(str(date_of_birth.year))
-
-        if int(date_of_birth.day / 10) != 0:
-            browser.element(f'.react-datepicker__day--0{date_of_birth.day}').click()
-        else:
-            browser.element(f'.react-datepicker__day--00{date_of_birth.day}').click()
+        self.date_of_birth_month.type(date_of_birth[1])
+        self.date_of_birth_year.type(date_of_birth[2])
+        browser.element(f'.react-datepicker__day--0{date_of_birth[0]}').click()
 
     def fill_user_subjects(self, subjects):
         for subject in subjects:
@@ -109,29 +91,23 @@ class RegistrationPage:
     def check_name_modal_contest(self):
         browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
 
-    def assert_registered_user_info(self, first_name, last_name, email, gender, phone_number,
-                                    date_of_birth, subjects, hobby, name_picture, address,
-                                    state, city):
-
-        str_subjects = ', '.join(subjects)
-
-        if int(date_of_birth['day'] / 10) != 0:
-            date_of_birth['day'] = 'date_of_birth["day"]}'
-        else:
-            date_of_birth['day'] = f'0{date_of_birth["day"]}'
+    def assert_registered_user_info(self, student: User):
+        str_subjects = ', '.join(student.subjects)
+        date_of_birth = student.date_of_birth.split()
+        name_picture = (student.name_picture.split('\\'))[-1]
 
         browser.element('.table').all('td').even.should(
             have.exact_texts(
-                f'{first_name} {last_name}',
-                email,
-                gender,
-                phone_number,
-                f'{date_of_birth["day"]} {date_of_birth["month"]},{date_of_birth["year"]}',
+                f'{student.first_name} {student.last_name}',
+                student.email,
+                student.gender,
+                student.phone_number,
+                f'{date_of_birth[0]} {date_of_birth[1]},{date_of_birth[2]}',
                 str_subjects,
-                hobby,
+                student.hobby,
                 name_picture,
-                address,
-                f'{state} {city}',
+                student.address,
+                f'{student.state} {student.city}',
             )
         )
 
